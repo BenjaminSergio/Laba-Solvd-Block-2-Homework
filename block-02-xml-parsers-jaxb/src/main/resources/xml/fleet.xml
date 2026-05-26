@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Reference document for Section 02 / Lecture 04.
+  No namespace — kept simple so XPath queries do not need a NamespaceContext.
+  Validates against fleet.xsd in this same directory.
+-->
+<fleet>
+
+  <airports>
+    <airport iata="WAW">
+      <name>Warsaw Chopin</name>
+      <city>Warsaw</city>
+      <countryCode>PL</countryCode>
+      <timezone>Europe/Warsaw</timezone>
+    </airport>
+    <airport iata="KRK">
+      <name>Kraków John Paul II</name>
+      <city>Kraków</city>
+      <countryCode>PL</countryCode>
+      <timezone>Europe/Warsaw</timezone>
+    </airport>
+    <airport iata="JFK">
+      <name>John F. Kennedy International</name>
+      <city>New York</city>
+      <countryCode>US</countryCode>
+      <timezone>America/New_York</timezone>
+    </airport>
+  </airports>
+
+  <aircraftModels>
+    <aircraftModel id="1">
+      <manufacturer>Boeing</manufacturer>
+      <modelName>737-800</modelName>
+      <capacity>189</capacity>
+      <rangeKm>5765</rangeKm>
+    </aircraftModel>
+    <aircraftModel id="2">
+      <manufacturer>Embraer</manufacturer>
+      <modelName>E195-E2</modelName>
+      <capacity>132</capacity>
+      <rangeKm>4815</rangeKm>
+    </aircraftModel>
+  </aircraftModels>
+
+  <aircraft>
+    <aircraftUnit tailNumber="SP-LRG" modelId="1">
+      <inService>true</inService>
+      <deliveredOn>2019-04-12</deliveredOn>
+    </aircraftUnit>
+    <aircraftUnit tailNumber="SP-LIB" modelId="2">
+      <inService>true</inService>
+      <deliveredOn>2022-08-30</deliveredOn>
+    </aircraftUnit>
+  </aircraft>
+
+  <routes>
+    <route id="100">
+      <originAirportIata>WAW</originAirportIata>
+      <destinationAirportIata>JFK</destinationAirportIata>
+      <distanceKm>6855</distanceKm>
+      <typicalDurationMin>545</typicalDurationMin>
+    </route>
+    <route id="101">
+      <originAirportIata>WAW</originAirportIata>
+      <destinationAirportIata>KRK</destinationAirportIata>
+      <distanceKm>252</distanceKm>
+      <typicalDurationMin>60</typicalDurationMin>
+    </route>
+  </routes>
+
+  <flights>
+    <flight number="LO281">
+      <routeId>100</routeId>
+      <aircraftTail>SP-LRG</aircraftTail>
+      <scheduledDep>2026-06-15T08:30:00</scheduledDep>
+      <scheduledArr>2026-06-15T11:45:00</scheduledArr>
+      <status>SCHEDULED</status>
+    </flight>
+    <flight number="LO282">
+      <routeId>100</routeId>
+      <aircraftTail>SP-LRG</aircraftTail>
+      <scheduledDep>2026-06-16T13:15:00</scheduledDep>
+      <scheduledArr>2026-06-16T16:30:00</scheduledArr>
+      <status>BOARDING</status>
+    </flight>
+    <flight number="LO302">
+      <routeId>101</routeId>
+      <aircraftTail>SP-LIB</aircraftTail>
+      <scheduledDep>2026-06-15T07:00:00</scheduledDep>
+      <scheduledArr>2026-06-15T08:00:00</scheduledArr>
+      <status>ARRIVED</status>
+    </flight>
+  </flights>
+
+</fleet>

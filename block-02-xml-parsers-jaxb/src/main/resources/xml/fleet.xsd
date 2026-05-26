@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  XSD schema for fleet.xml — Section 02 / Lecture 04 reference.
+  Demonstrates: simpleType + restriction, complexType, sequence, attribute,
+  cardinality (minOccurs/maxOccurs), date and dateTime built-ins, enumeration.
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+
+  <!-- ──────────── simpleTypes ──────────── -->
+
+  <!-- Three uppercase ASCII letters — IATA code -->
+  <xs:simpleType name="IataCode">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[A-Z]{3}"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- ICAO-shaped tail number: SP-XXX, N123AB, etc. — letters and dashes -->
+  <xs:simpleType name="TailNumber">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[A-Z]{1,2}-[A-Z0-9]{2,5}"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- ISO-3166-1 alpha-2 country code -->
+  <xs:simpleType name="CountryCode">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[A-Z]{2}"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Flight status enum — mirrors Java Flight.Status -->
+  <xs:simpleType name="FlightStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SCHEDULED"/>
+      <xs:enumeration value="BOARDING"/>
+      <xs:enumeration value="DEPARTED"/>
+      <xs:enumeration value="ARRIVED"/>
+      <xs:enumeration value="CANCELLED"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- ──────────── complexTypes ──────────── -->
+
+  <xs:complexType name="AirportType">
+    <xs:sequence>
+      <xs:element name="name"        type="xs:string"/>
+      <xs:element name="city"        type="xs:string"/>
+      <xs:element name="countryCode" type="CountryCode"/>
+      <xs:element name="timezone"    type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="iata" type="IataCode" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="AircraftModelType">
+    <xs:sequence>
+      <xs:element name="manufacturer" type="xs:string"/>
+      <xs:element name="modelName"    type="xs:string"/>
+      <xs:element name="capacity"     type="xs:positiveInteger"/>
+      <xs:element name="rangeKm"      type="xs:positiveInteger"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:long" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="AircraftUnitType">
+    <xs:sequence>
+      <xs:element name="inService"   type="xs:boolean"/>
+      <xs:element name="deliveredOn" type="xs:date" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="tailNumber" type="TailNumber" use="required"/>
+    <xs:attribute name="modelId"    type="xs:long"    use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="RouteType">
+    <xs:sequence>
+      <xs:element name="originAirportIata"      type="IataCode"/>
+      <xs:element name="destinationAirportIata" type="IataCode"/>
+      <xs:element name="distanceKm"             type="xs:positiveInteger"/>
+      <xs:element name="typicalDurationMin"     type="xs:positiveInteger"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:long" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="FlightType">
+    <xs:sequence>
+      <xs:element name="routeId"      type="xs:long"/>
+      <xs:element name="aircraftTail" type="TailNumber" minOccurs="0"/>
+      <xs:element name="scheduledDep" type="xs:dateTime"/>
+      <xs:element name="scheduledArr" type="xs:dateTime"/>
+      <xs:element name="status"       type="FlightStatus"/>
+    </xs:sequence>
+    <xs:attribute name="number" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <!-- ──────────── root element ──────────── -->
+
+  <xs:element name="fleet">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="airports">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="airport" type="AirportType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="aircraftModels">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="aircraftModel" type="AircraftModelType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="aircraft">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="aircraftUnit" type="AircraftUnitType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="routes">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="route" type="RouteType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="flights">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="flight" type="FlightType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
