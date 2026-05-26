@@ -21,5 +21,45 @@ public class Route extends BaseEntity {
     private int  distanceKm;
     private int  typicalDurationMin;
 
-    // TODO: getters / setters
+    public Long getOriginAirportId() {
+        return originAirportId;
+    }
+
+    public void setOriginAirportId(Long originAirportId) {
+        this.originAirportId = originAirportId;
+    }
+
+    public Long getDestinationAirportId() {
+        return destinationAirportId;
+    }
+
+    public void setDestinationAirportId(Long destinationAirportId) {
+        this.destinationAirportId = destinationAirportId;
+    }
+
+    public int getDistanceKm() {
+        return distanceKm;
+    }
+
+    public void setDistanceKm(int distanceKm) {
+        this.distanceKm = distanceKm;
+    }
+
+    public int getTypicalDurationMin() {
+        return typicalDurationMin;
+    }
+
+    public void setTypicalDurationMin(int typicalDurationMin) {
+        this.typicalDurationMin = typicalDurationMin;
+    }
+
+    @java.lang.Override
+    public java.lang.String toString() {
+        return "Route{" +
+                "originAirportId=" + originAirportId +
+                ", destinationAirportId=" + destinationAirportId +
+                ", distanceKm=" + distanceKm +
+                ", typicalDurationMin=" + typicalDurationMin +
+                '}';
+    }
 }

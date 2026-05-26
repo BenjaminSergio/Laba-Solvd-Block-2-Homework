@@ -28,5 +28,63 @@ public class Ticket extends BaseEntity {
     private BigDecimal basePrice;
     private Instant    issuedAt;
 
-    // TODO: getters / setters
+    public String getTicketNumber() {
+        return ticketNumber;
+    }
+
+    public void setTicketNumber(String ticketNumber) {
+        this.ticketNumber = ticketNumber;
+    }
+
+    public Long getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(Long bookingId) {
+        this.bookingId = bookingId;
+    }
+
+    public Long getFlightId() {
+        return flightId;
+    }
+
+    public void setFlightId(Long flightId) {
+        this.flightId = flightId;
+    }
+
+    public Long getFareClassId() {
+        return fareClassId;
+    }
+
+    public void setFareClassId(Long fareClassId) {
+        this.fareClassId = fareClassId;
+    }
+
+    public BigDecimal getBasePrice() {
+        return basePrice;
+    }
+
+    public void setBasePrice(BigDecimal basePrice) {
+        this.basePrice = basePrice;
+    }
+
+    public Instant getIssuedAt() {
+        return issuedAt;
+    }
+
+    public void setIssuedAt(Instant issuedAt) {
+        this.issuedAt = issuedAt;
+    }
+
+    @java.lang.Override
+    public java.lang.String toString() {
+        return "Ticket{" +
+                "ticketNumber='" + ticketNumber + '\'' +
+                ", bookingId=" + bookingId +
+                ", flightId=" + flightId +
+                ", fareClassId=" + fareClassId +
+                ", basePrice=" + basePrice +
+                ", issuedAt=" + issuedAt +
+                '}';
+    }
 }

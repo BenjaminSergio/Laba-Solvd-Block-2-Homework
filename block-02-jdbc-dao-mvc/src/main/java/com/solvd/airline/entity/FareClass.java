@@ -23,5 +23,45 @@ public class FareClass extends BaseEntity {
     private BigDecimal priceMultiplier;
     private boolean    refundable;
 
-    // TODO: getters / setters
+    public boolean isRefundable() {
+        return refundable;
+    }
+
+    public void setRefundable(boolean refundable) {
+        this.refundable = refundable;
+    }
+
+    public BigDecimal getPriceMultiplier() {
+        return priceMultiplier;
+    }
+
+    public void setPriceMultiplier(BigDecimal priceMultiplier) {
+        this.priceMultiplier = priceMultiplier;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    @java.lang.Override
+    public java.lang.String toString() {
+        return "FareClass{" +
+                "code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", priceMultiplier=" + priceMultiplier +
+                ", refundable=" + refundable +
+                '}';
+    }
 }

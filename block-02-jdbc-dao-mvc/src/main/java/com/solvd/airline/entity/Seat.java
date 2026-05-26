@@ -23,5 +23,54 @@ public class Seat extends BaseEntity {
     private boolean window;
     private boolean exitRow;
 
-    // TODO: getters / setters
+    public Long getAircraftId() {
+        return aircraftId;
+    }
+
+    public void setAircraftId(Long aircraftId) {
+        this.aircraftId = aircraftId;
+    }
+
+    public Long getFareClassId() {
+        return fareClassId;
+    }
+
+    public void setFareClassId(Long fareClassId) {
+        this.fareClassId = fareClassId;
+    }
+
+    public String getSeatLabel() {
+        return seatLabel;
+    }
+
+    public void setSeatLabel(String seatLabel) {
+        this.seatLabel = seatLabel;
+    }
+
+    public boolean isWindow() {
+        return window;
+    }
+
+    public void setWindow(boolean window) {
+        this.window = window;
+    }
+
+    public boolean isExitRow() {
+        return exitRow;
+    }
+
+    public void setExitRow(boolean exitRow) {
+        this.exitRow = exitRow;
+    }
+
+    @java.lang.Override
+    public java.lang.String toString() {
+        return "Seat{" +
+                "aircraftId=" + aircraftId +
+                ", fareClassId=" + fareClassId +
+                ", seatLabel='" + seatLabel + '\'' +
+                ", window=" + window +
+                ", exitRow=" + exitRow +
+                '}';
+    }
 }

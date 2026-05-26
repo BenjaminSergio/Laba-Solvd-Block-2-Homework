@@ -21,5 +21,36 @@ public class SeatAssignment extends BaseEntity {
     private Long    seatId;
     private Instant assignedAt;
 
-    // TODO: getters / setters
+    public Long getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(Long ticketId) {
+        this.ticketId = ticketId;
+    }
+
+    public Long getSeatId() {
+        return seatId;
+    }
+
+    public void setSeatId(Long seatId) {
+        this.seatId = seatId;
+    }
+
+    public Instant getAssignedAt() {
+        return assignedAt;
+    }
+
+    public void setAssignedAt(Instant assignedAt) {
+        this.assignedAt = assignedAt;
+    }
+
+    @java.lang.Override
+    public java.lang.String toString() {
+        return "SeatAssignment{" +
+                "ticketId=" + ticketId +
+                ", seatId=" + seatId +
+                ", assignedAt=" + assignedAt +
+                '}';
+    }
 }

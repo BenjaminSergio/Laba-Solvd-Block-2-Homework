@@ -27,5 +27,54 @@ public class Payment extends BaseEntity {
     private Method        method;
     private LocalDateTime paidAt;
 
-    // TODO: getters / setters
+    public Long getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(Long bookingId) {
+        this.bookingId = bookingId;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public Method getMethod() {
+        return method;
+    }
+
+    public void setMethod(Method method) {
+        this.method = method;
+    }
+
+    public LocalDateTime getPaidAt() {
+        return paidAt;
+    }
+
+    public void setPaidAt(LocalDateTime paidAt) {
+        this.paidAt = paidAt;
+    }
+
+    @java.lang.Override
+    public java.lang.String toString() {
+        return "Payment{" +
+                "bookingId=" + bookingId +
+                ", amount=" + amount +
+                ", currency='" + currency + '\'' +
+                ", method=" + method +
+                ", paidAt=" + paidAt +
+                '}';
+    }
 }
