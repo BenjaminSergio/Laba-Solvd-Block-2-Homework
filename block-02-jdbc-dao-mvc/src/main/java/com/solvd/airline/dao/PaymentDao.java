@@ -18,20 +18,54 @@ public class PaymentDao extends AbstractDao<Payment> {
     @Override protected String tableName() { return "payments"; }
     @Override protected String idColumn()  { return "payment_id"; }
 
-    @Override protected String insertSql() { throw new UnsupportedOperationException("Homework."); }
-    @Override protected String updateSql() { throw new UnsupportedOperationException("Homework."); }
+    @Override protected String insertSql() {
+        return """
+               INSERT INTO payments (booking_id, amount, currency, method, paid_at)
+               VALUES (?, ?, ?, ?, ?)
+               """;}
+    @Override protected String updateSql() {
+        return """
+               UPDATE payments
+                  SET booking_id = ?, amount = ?, currency = ?, method = ?, paid_at = ?
+                WHERE payment_id = ?
+               """;
+    }
 
     @Override protected Payment mapRow(ResultSet rs) throws SQLException {
-        throw new UnsupportedOperationException("Homework.");
+        Payment p = new Payment();
+        p.setId(rs.getLong("payment_id"));
+        p.setBookingId(rs.getLong("booking_id"));
+        p.setAmount(rs.getBigDecimal("amount"));
+        p.setCurrency(rs.getString("currency"));
+        p.setMethod(Payment.Method.valueOf(rs.getString("method")));
+        p.setPaidAt(rs.getTimestamp("paid_at").toLocalDateTime());
+        return p;
     }
     @Override protected void bindForSave(PreparedStatement ps, Payment p) throws SQLException {
-        throw new UnsupportedOperationException("Homework.");
+        ps.setLong      (1, p.getBookingId());
+        ps.setBigDecimal(2, p.getAmount());
+        ps.setString    (3, p.getCurrency());
+        ps.setString    (4, p.getMethod().name());
+        ps.setTimestamp (5, Timestamp.valueOf(p.getPaidAt()));
     }
     @Override protected void bindForUpdate(PreparedStatement ps, Payment p) throws SQLException {
-        throw new UnsupportedOperationException("Homework.");
+        ps.setLong      (1, p.getBookingId());
+        ps.setBigDecimal(2, p.getAmount());
+        ps.setString    (3, p.getCurrency());
+        ps.setString    (4, p.getMethod().name());
+        ps.setTimestamp (5, Timestamp.valueOf(p.getPaidAt()));
+        ps.setLong(6, p.getId());
     }
 
     public Payment saveInTx(Connection c, Payment p) throws SQLException {
-        throw new UnsupportedOperationException("Homework.");
+        try (PreparedStatement ps = c.prepareStatement(
+                insertSql(), Statement.RETURN_GENERATED_KEYS)) {
+            bindForSave(ps, p);
+            ps.executeUpdate();
+            try (ResultSet keys = ps.getGeneratedKeys()) {
+                if (keys.next()) p.setId(keys.getLong(1));
+            }
+            return p;
+        }
     }
 }

@@ -39,7 +39,8 @@ public final class ConnectionPool {
     private final int    size;
     private final long   acquireTimeoutMs;
 
-    // TODO (homework): paste your L12 BlockingQueue<Connection> + initialised flag here.
+    private final BlockingQueue<Connection> pool;
+    private volatile boolean shutDown = false;
 
     private ConnectionPool() {
         Properties p = loadProperties();
@@ -48,7 +49,18 @@ public final class ConnectionPool {
         this.password         = p.getProperty("db.password");
         this.size             = Integer.parseInt(p.getProperty("pool.size", "10"));
         this.acquireTimeoutMs = Long.parseLong(p.getProperty("pool.acquire.timeout.ms", "2000"));
-        // TODO (homework): pre-fill the queue with `size` open connections.
+        this.pool             = new ArrayBlockingQueue<>(size);
+        try {
+            for (int i = 0; i < size; i++) {
+                Connection c = DriverManager.getConnection(url, user, password);
+                c.setAutoCommit(true);
+                c.setTransactionIsolation(isolationLevel);
+                pool.offer(c);
+            }
+            log.info("ConnectionPool initialised — size={} url={}", size, url);
+        } catch (SQLException e) {
+            throw new IllegalStateException("Cannot pre-fill ConnectionPool", e);
+        }
     }
 
     private static final class Holder {
@@ -61,20 +73,52 @@ public final class ConnectionPool {
 
     /** Borrow a connection from the pool. Blocks up to {@code pool.acquire.timeout.ms}. */
     public Connection acquire() throws SQLException {
-        // TODO (homework): poll the BlockingQueue with the timeout.
-        throw new UnsupportedOperationException("Paste your L12 implementation here.");
+        if (shutDown) {
+            throw new SQLException("ConnectionPool is shut down");
+        }
+        try {
+            Connection real = pool.poll(acquireTimeoutMs, TimeUnit.MILLISECONDS);
+            if (real == null) {
+                throw new SQLException("Pool exhausted — no connection within "
+                        + acquireTimeoutMs + " ms");
+            }
+            return wrap(real);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new SQLException("Interrupted while waiting for a connection", e);
+        }
     }
 
     /** Return a connection to the pool. Resets autoCommit + isolation before returning. */
     public void release(Connection connection) {
-        // TODO (homework): reset state, offer the connection back to the queue.
-        throw new UnsupportedOperationException("Paste your L12 implementation here.");
+        if (connection == null) return;
+        if (shutDown) {
+            closeQuietly(connection);
+            return;
+        }
+        try {
+            if (!connection.getAutoCommit()) {
+                connection.setAutoCommit(true);
+            }
+            connection.setTransactionIsolation(isolationLevel);
+            pool.offer(connection);
+        } catch (SQLException e) {
+            log.warn("Resetting connection state failed — discarding", e);
+            closeQuietly(connection);
+        }
     }
 
     /** Close every underlying connection — call on JVM shutdown. */
     public void shutdown() {
-        // TODO (homework): drain the queue + close().
-        throw new UnsupportedOperationException("Paste your L12 implementation here.");
+        if (shutDown) return;
+        shutDown = true;
+        List<Connection> drained = new ArrayList<>();
+        pool.drainTo(drained);
+        for (Connection c : drained) {
+            closeQuietly(c);
+        }
+        log.info("ConnectionPool shut down — closed {} connections", drained.size());
+
     }
 
     public int size()             { return size; }
