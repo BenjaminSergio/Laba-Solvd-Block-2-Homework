@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level [%logger{20}] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.solvd" level="DEBUG"/>
+    <logger name="org.apache.ibatis" level="INFO"/>
+    <!-- Set the next two to DEBUG to see every SQL statement and bound parameter -->
+    <logger name="com.solvd.airline.mapper" level="INFO"/>
+    <logger name="java.sql.PreparedStatement" level="INFO"/>
+
+    <root level="WARN">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

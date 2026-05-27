@@ -1,0 +1,35 @@
+{
+  "_comment": "STUB — homework task 2. Replace this whole document with a valid <bookings> JSON object covering at least five classes from the airline hierarchy: Booking + Passenger (or omit and use passengerId) + Ticket + FareClass + Payment. The reference fleet.json is the example to mirror. Then write booking-schema.json next to this file. The BookingSchemaValidatorIT integration test you write asserts that this file validates against your schema.",
+  "_example": {
+    "bookings": [
+      {
+        "bookingReference": "ABC123",
+        "passengerId": 1,
+        "status": "CONFIRMED",
+        "bookedAt": "2026-06-01T10:15:30Z",
+        "tickets": [
+          {
+            "number": "1234567890123",
+            "flightNumber": "LO281",
+            "fareClass": {
+              "code": "Y",
+              "name": "Economy",
+              "priceMultiplier": 1.00,
+              "refundable": false
+            },
+            "basePrice": 199.00,
+            "issuedAt": "2026-06-01T10:15:30Z"
+          }
+        ],
+        "payments": [
+          {
+            "method": "CARD",
+            "amount": 199.00,
+            "currency": "EUR",
+            "paidAt": "2026-06-01T10:15:32"
+          }
+        ]
+      }
+    ]
+  }
+}

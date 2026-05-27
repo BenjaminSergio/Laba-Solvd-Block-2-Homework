@@ -1,0 +1,97 @@
+{
+  "airports": [
+    {
+      "iata": "WAW",
+      "name": "Warsaw Chopin",
+      "city": "Warsaw",
+      "countryCode": "PL",
+      "timezone": "Europe/Warsaw"
+    },
+    {
+      "iata": "KRK",
+      "name": "Kraków John Paul II",
+      "city": "Kraków",
+      "countryCode": "PL",
+      "timezone": "Europe/Warsaw"
+    },
+    {
+      "iata": "JFK",
+      "name": "John F. Kennedy International",
+      "city": "New York",
+      "countryCode": "US",
+      "timezone": "America/New_York"
+    }
+  ],
+  "aircraftModels": [
+    {
+      "id": 1,
+      "manufacturer": "Boeing",
+      "modelName": "737-800",
+      "capacity": 189,
+      "rangeKm": 5765
+    },
+    {
+      "id": 2,
+      "manufacturer": "Embraer",
+      "modelName": "E195-E2",
+      "capacity": 132,
+      "rangeKm": 4815
+    }
+  ],
+  "aircraft": [
+    {
+      "tailNumber": "SP-LRG",
+      "modelId": 1,
+      "inService": true,
+      "deliveredOn": "2019-04-12"
+    },
+    {
+      "tailNumber": "SP-LIB",
+      "modelId": 2,
+      "inService": true,
+      "deliveredOn": "2022-08-30"
+    }
+  ],
+  "routes": [
+    {
+      "id": 100,
+      "originAirportIata": "WAW",
+      "destinationAirportIata": "JFK",
+      "distanceKm": 6855,
+      "typicalDurationMin": 545
+    },
+    {
+      "id": 101,
+      "originAirportIata": "WAW",
+      "destinationAirportIata": "KRK",
+      "distanceKm": 252,
+      "typicalDurationMin": 60
+    }
+  ],
+  "flights": [
+    {
+      "number": "LO281",
+      "routeId": 100,
+      "aircraftTail": "SP-LRG",
+      "scheduledDep": "2026-06-15T08:30:00",
+      "scheduledArr": "2026-06-15T11:45:00",
+      "status": "SCHEDULED"
+    },
+    {
+      "number": "LO282",
+      "routeId": 100,
+      "aircraftTail": "SP-LRG",
+      "scheduledDep": "2026-06-16T13:15:00",
+      "scheduledArr": "2026-06-16T16:30:00",
+      "status": "BOARDING"
+    },
+    {
+      "number": "LO302",
+      "routeId": 101,
+      "aircraftTail": "SP-LIB",
+      "scheduledDep": "2026-06-15T07:00:00",
+      "scheduledArr": "2026-06-15T08:00:00",
+      "status": "ARRIVED"
+    }
+  ]
+}

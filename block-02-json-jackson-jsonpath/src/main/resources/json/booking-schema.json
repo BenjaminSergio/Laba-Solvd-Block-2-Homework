@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://solvd.com/airline/booking/v1/booking-schema.json",
+  "title": "Booking (STUB)",
+  "description": "STUB — homework task 2. Write a Draft 2020-12 schema for your booking.json. The reference fleet-schema.json is the example to mirror — use $defs to declare reusable types (IataCode, TailNumber, FareClassCode, etc.), required arrays, pattern restrictions, enum values, and additionalProperties:false on every object so unknown keys are rejected.",
+  "type": "object",
+  "additionalProperties": true,
+  "_comment": "Remove this stub and write a real schema. Until then, this allows any shape so the build does not fail at compile time."
+}

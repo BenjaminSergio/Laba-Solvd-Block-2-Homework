@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!--
+  Single MyBatis configuration file for the airline_booking project.
+  Parsed once at startup by SqlSessionFactoryBuilder; the resulting
+  SqlSessionFactory is held in MyBatisSessionFactory.getInstance().
+
+  - <properties> pulls db.properties off the classpath so URL + creds
+    live outside source control.
+  - <settings> flips the global switches we discuss in Act 1 of the lecture.
+    mapUnderscoreToCamelCase=true is the single most useful one — it lets
+    auto-mapping resolve `country_code` -> setCountryCode without a <resultMap>.
+  - <typeAliases> registers every entity class in the package by its simple
+    name in lower-case, so mappers can write parameterType="airport" instead
+    of the fully qualified name.
+  - <environments> declares the JDBC connection + transaction manager. The
+    "POOLED" data source is MyBatis's built-in pool, sufficient for the
+    homework. In Spring Boot, the DataSource would come from auto-config.
+  - <mappers> lists each mapper. XML mappers by `resource` (classpath path),
+    annotation mappers by `class` (fully qualified interface name).
+-->
+<configuration>
+
+    <properties resource="db.properties"/>
+
+    <settings>
+        <setting name="cacheEnabled"             value="true"/>
+        <setting name="lazyLoadingEnabled"       value="false"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="defaultExecutorType"      value="SIMPLE"/>
+        <setting name="useGeneratedKeys"         value="true"/>
+    </settings>
+
+    <typeAliases>
+        <package name="com.solvd.airline.entity"/>
+    </typeAliases>
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver"                value="${db.driver}"/>
+                <property name="url"                   value="${db.url}"/>
+                <property name="username"              value="${db.user}"/>
+                <property name="password"              value="${db.password}"/>
+                <property name="poolMaximumActiveConnections" value="10"/>
+                <property name="poolMaximumIdleConnections"   value="5"/>
+                <property name="poolTimeToWait"               value="20000"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <!-- XML mapper (reference for the XML style) -->
+        <mapper resource="mappers/AirportMapper.xml"/>
+
+        <!-- Annotation mappers (interface-only) -->
+        <mapper class="com.solvd.airline.mapper.FlightMapper"/>
+        <mapper class="com.solvd.airline.mapper.PassengerMapper"/>
+        <mapper class="com.solvd.airline.mapper.BookingMapper"/>
+        <mapper class="com.solvd.airline.mapper.TicketMapper"/>
+        <mapper class="com.solvd.airline.mapper.PaymentMapper"/>
+
+        <!-- Homework stubs — uncomment as you implement each -->
+        <!-- <mapper class="com.solvd.airline.mapper.AircraftMapper"/> -->
+        <!-- <mapper class="com.solvd.airline.mapper.AircraftModelMapper"/> -->
+        <!-- <mapper class="com.solvd.airline.mapper.RouteMapper"/> -->
+        <!-- <mapper class="com.solvd.airline.mapper.SeatAssignmentMapper"/> -->
+        <!-- <mapper class="com.solvd.airline.mapper.FareClassMapper"/> -->
+        <!-- <mapper class="com.solvd.airline.mapper.SeatMapper"/> -->
+    </mappers>
+
+</configuration>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+  Reference XML mapper — walked through in Act 2 of the lecture.
+
+  Pattern to copy for any mapper where you might add dynamic SQL later
+  (a stub for `findFlights(routeId, status, after)` is shown in the
+  lecture's dynamic-SQL act and lives well in XML).
+
+  Namespace MUST match the interface FQN exactly:
+      <mapper namespace="com.solvd.airline.mapper.AirportMapper">
+  Statement ids MUST match the interface method names:
+      <select id="findById"> -> AirportMapper.findById(Long)
+-->
+<mapper namespace="com.solvd.airline.mapper.AirportMapper">
+
+    <!-- ─────────────────────────────────────────────────────────── -->
+    <!-- Reusable shapes: <resultMap> + <sql> + <include refid>      -->
+    <!-- ─────────────────────────────────────────────────────────── -->
+
+    <resultMap id="AirportResult" type="airport">
+        <id     property="id"          column="airport_id"/>
+        <result property="iata"        column="iata"/>
+        <result property="name"        column="name"/>
+        <result property="city"        column="city"/>
+        <result property="countryCode" column="country_code"/>
+        <result property="timezone"    column="timezone"/>
+    </resultMap>
+
+    <sql id="columns">
+        airport_id, iata, name, city, country_code, timezone
+    </sql>
+
+    <!-- ─────────────────────────────────────────────────────────── -->
+    <!-- Five CRUD statements + one domain finder (findByIata)       -->
+    <!-- ─────────────────────────────────────────────────────────── -->
+
+    <select id="findById" resultMap="AirportResult">
+        SELECT <include refid="columns"/>
+          FROM airports
+         WHERE airport_id = #{id}
+    </select>
+
+    <select id="findByIata" resultMap="AirportResult">
+        SELECT <include refid="columns"/>
+          FROM airports
+         WHERE iata = #{iata}
+    </select>
+
+    <select id="findAll" resultMap="AirportResult">
+        SELECT <include refid="columns"/>
+          FROM airports
+         ORDER BY iata
+    </select>
+
+    <!--
+      A dynamic-SQL example you can use as the template for the homework's
+      stub mappers. Three optional filters; <where> strips a leading AND.
+    -->
+    <select id="search" resultMap="AirportResult">
+        SELECT <include refid="columns"/>
+          FROM airports
+        <where>
+            <if test="countryCode != null"> AND country_code = #{countryCode} </if>
+            <if test="city != null">         AND city = #{city} </if>
+            <if test="namePart != null and namePart != ''">
+                AND name LIKE CONCAT('%', #{namePart}, '%')
+            </if>
+        </where>
+         ORDER BY iata
+    </select>
+
+    <insert id="save" parameterType="airport"
+            useGeneratedKeys="true" keyProperty="id" keyColumn="airport_id">
+        INSERT INTO airports (iata, name, city, country_code, timezone)
+        VALUES (#{iata}, #{name}, #{city}, #{countryCode}, #{timezone})
+    </insert>
+
+    <update id="update" parameterType="airport">
+        UPDATE airports
+        <set>
+            <if test="iata        != null"> iata         = #{iata}, </if>
+            <if test="name        != null"> name         = #{name}, </if>
+            <if test="city        != null"> city         = #{city}, </if>
+            <if test="countryCode != null"> country_code = #{countryCode}, </if>
+            <if test="timezone    != null"> timezone     = #{timezone}, </if>
+        </set>
+         WHERE airport_id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM airports WHERE airport_id = #{id}
+    </delete>
+
+</mapper>
