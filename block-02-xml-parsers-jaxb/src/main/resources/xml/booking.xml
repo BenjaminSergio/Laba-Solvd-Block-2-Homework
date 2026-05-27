@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  STUB — homework task 2.
+
+  Write a valid <bookings> document covering at least five classes from the
+  airline hierarchy. Suggested coverage:
+
+      <bookings>
+        <booking reference="ABC123" status="CONFIRMED">
+          <passenger>
+            <firstName>...</firstName>
+            <lastName>...</lastName>
+            <email>...</email>
+            <dateOfBirth>YYYY-MM-DD</dateOfBirth>
+          </passenger>
+          <tickets>
+            <ticket number="1234567890123">
+              <flightNumber>LO281</flightNumber>
+              <fareClass code="Y">
+                <name>Economy</name>
+                <priceMultiplier>1.00</priceMultiplier>
+                <refundable>false</refundable>
+              </fareClass>
+              <basePrice>199.00</basePrice>
+              <issuedAt>2026-06-01T10:15:30Z</issuedAt>
+            </ticket>
+          </tickets>
+          <payments>
+            <payment method="CARD">
+              <amount>199.00</amount>
+              <currency>EUR</currency>
+              <paidAt>2026-06-01T10:15:32</paidAt>
+            </payment>
+          </payments>
+          <bookedAt>2026-06-01T10:15:30Z</bookedAt>
+        </booking>
+        <booking reference="DEF456" status="PENDING">
+          ...
+        </booking>
+      </bookings>
+
+  Then write booking.xsd in this same directory. The reference XsdValidator
+  will reject invalid documents at parse time — that is the assertion target
+  for the BookingValidationIT integration test you write.
+-->
+<bookings>
+  <!-- TODO -->
+</bookings>

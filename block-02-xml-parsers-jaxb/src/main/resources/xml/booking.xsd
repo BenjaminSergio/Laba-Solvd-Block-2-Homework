@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  STUB — homework task 2.
+
+  Write an XSD that validates the booking.xml you create. Cover at least:
+
+  - <bookings> root with cardinality (minOccurs/maxOccurs)
+  - <booking> with @reference (CHAR(6)) and @status enumeration
+  - <passenger> nested complexType with dateOfBirth as xs:date
+  - <tickets> wrapper element containing repeated <ticket> children
+  - <fareClass> with @code restricted to single uppercase letter
+  - <payment> with @method enumeration and amount as xs:decimal
+  - <bookedAt> as xs:dateTime
+
+  The reference fleet.xsd alongside this file is the example to mirror.
+  Run mvn test once you have a draft; XsdValidatorIT will validate
+  booking.xml against booking.xsd if both exist.
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+
+  <!-- TODO -->
+  <xs:element name="bookings">
+    <xs:complexType>
+      <xs:sequence/>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
